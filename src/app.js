@@ -1,30 +1,26 @@
 const express = require("express");
 const app = express();
-
-app.get("/user/:userId/:name/:password" , (req,res)=> {
-     console.log( req.params);
-res.send({firstName:"Shabd" , middleName:"Prakash" , lastName:"Tripathi"})
-});
-
-app.post("/user" , (req,res)=> {
-    console.log("Save data to database");
-    res.send("Data successfully saved to database");
-});
-app.delete("/user" , (req,res)=> {
-    res.send("Deleted successfully");
-});
-app.use("/hello",(req,res) => {
-    res.send("Hello Hello From the server! 1123");
+// Handle Auth Middleware for all GET,POST,......requests 
+app.use("/admin" , (req,res,next) => {
+    console.log("Admin auth is getting checked !!");
+    const token = "xyz";
+    const isAdminAuthorized = token === "xyzvbf";
+    if(!isAdminAuthorized) {
+       res.status(401).send("Unauthorized request")
+    } else {
+        next();
+    }
 })
 
-app.use("/test",(req,res) => {
-    res.send("Hello From the server! ");
+app.get("/admin/getAllData", (req, res, next) => {
+   res.send("All Data Sent");
+});
+
+app.get("/admin/deleteUser" , (req,res,next) => {
+    res.send("Deleted a User")
 })
 
-app.use("/",(req,res) => {
-    res.send("Shabd Prakash");
-})
 
-app.listen(7777 , ()  => {
-    console.log("Server is listening on port 7777 .....");
-} );
+app.listen(7777, () => {
+  console.log("Server is listening on port 7777 .....");
+});
