@@ -17,7 +17,7 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User Added Successfully!");
   } catch (err) {
-    res.status(400).send("Error saving the user:", err.message);
+    res.status(400).send( err.message);
   }
 });
 // Get user by email
@@ -62,17 +62,18 @@ app.patch("/user", async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate({ _id: userId }, data, {
       returnDocument: "after",
+      runValidators:true,
     });
     console.log(user);
     res.send("User updated successfully");
   } catch (err) {
-    res.status(400).send("something went wrong");
+    res.status(400).send("UPDATE FAILED" + err.message);
   }
 });
 
 connectDB()
   .then(() => {
-    console.log("Connection established successsfully...");
+    console.log("Connection established successfully...");
     app.listen(7777, () => {
       console.log("Server is listening on port 7777 .....");
     });
