@@ -6,18 +6,12 @@ const User = require("./models/user");
 app.use(express.json());
 // Post data in API
 app.post("/signup", async (req, res) => {
-  // const userObj = {
-  //   firstName: "MS",
-  //   lastName: "Dhoni",
-  //   emailId: "msdhoni@gmail.com",
-  //   password: "Dhoni@0112358",
-  // };
   const user = new User(req.body);
   try {
     await user.save();
     res.send("User Added Successfully!");
   } catch (err) {
-    res.status(400).send( err.message);
+    res.status(400).send(err.message);
   }
 });
 // Get user by email
@@ -56,18 +50,29 @@ app.delete("/user", async (req, res) => {
   }
 });
 // Update user API
-app.patch("/user", async (req, res) => {
-  const userId = req.body.userId;
+app.patch("/user/:userId", async (req, res) => {
+  const userId = req.params?.userId;
   const data = req.body;
   try {
+    const UPDATE_ALLOWED = ["photoUrl", "gender", "age", "skills"];
+
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      UPDATE_ALLOWED.includes(k),
+    );
+    if (!isUpdateAllowed) {
+      throw new Error("Update not allowed");
+    }
+    if (data?.skills?.length > 10) {
+      throw new Error("Skills cannot be more than 10");
+    }
     const user = await User.findByIdAndUpdate({ _id: userId }, data, {
       returnDocument: "after",
-      runValidators:true,
+      runValidators: true,
     });
     console.log(user);
     res.send("User updated successfully");
   } catch (err) {
-    res.status(400).send("UPDATE FAILED" + err.message);
+    res.status(400).send("UPDATE FAILED " + err.message);
   }
 });
 
