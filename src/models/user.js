@@ -1,13 +1,17 @@
 const mongoose = require("mongoose");
+// const validator = require("validator");
 const userSchema = new mongoose.Schema(
   {
   firstName: {
     type: String,
     required: true,
     minLength:4,
+    maxLength:50
   },
   lastName: {
     type: String,
+     minLength:4,
+    maxLength:50
   },
   emailId: {
     type: String,
@@ -15,10 +19,20 @@ const userSchema = new mongoose.Schema(
     required: true,
     unique: true,
     trim:true,
+    // validate(value) {
+    //   if(!validator.isEmail(value)) {
+    //     throw new Error("Invalid email address " + value);
+    //   }
+    // }
   },
   password: {
     type: String,
     required: true,
+    //  validate(value) {
+    //   if(!validator.isStrongPassword(value)) {
+    //     throw new Error("Enter a Strong Password " + value);
+    //   }
+    // }
   },
   age: {
     type: Number,
@@ -35,7 +49,12 @@ const userSchema = new mongoose.Schema(
   },
   photoUrl: {
     type: String,
-    default:"https://kristalle.com/wp-content/uploads/2020/07/dummy-profile-pic-1.jpg"
+    default:"https://kristalle.com/wp-content/uploads/2020/07/dummy-profile-pic-1.jpg",
+    //  validate(value) {
+    //   if(!validator.isURL(value)) {
+    //     throw new Error("Invalid Photo URL " + value);
+    //   }
+    // }
   },
   about: {
     type: String,

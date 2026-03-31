@@ -59,4 +59,12 @@
 - Improve the db schema - PUT all appropriate validations on each field in Schema 
 - Add timestamps to the userSchema 
 - Add API level validation on Patch request & signup post api 
-- Add API validation for each field
+- Data Sanitization - Add API validation for each field
+- Install Validator 
+- Explore validator library function and use validator function for password , email
+- NEVER TRUST req.body
+- validate data in Signup API
+- Install bcrypt package
+- Create PasswordHash using bcrypt.Hash & save the user is excrupted password
+- create login API 
+- Compare passwords and throw error if email or password is invalid 
