@@ -4,7 +4,7 @@ const User = require("../models/user");
 const userAuth = async (req, res, next) => {
   try {
     const { token } = req.cookies;
-
+    
     if (!token) {
       throw new Error("Token is not valid!!!!");
     }
@@ -24,17 +24,6 @@ const userAuth = async (req, res, next) => {
     res.status(400).send("ERROR1234: " + err.message);
   }
 };
-
-//  const userAuth =  (req,res,next) => {
-//     console.log("Admin auth is getting checked !!");
-//     const token = "xyz";
-//     const isAdminAuthorized = token === "xyz";
-//     if(!isAdminAuthorized) {
-//        res.status(401).send("Unauthorized request");
-//     } else {
-//         next();
-//     }
-// };
 
 module.exports = {
   userAuth,

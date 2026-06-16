@@ -1,4 +1,5 @@
 const validator = require("validator");
+
 // const { validate } = require("../src/models/user");
 
 const validateSignUpData = (req) => {
@@ -31,7 +32,15 @@ const validateEditProfileData = (req) => {
   return isEditAllowed;
 };
 
+const newPasswordValidate = (req) => {
+  const { password } = req.body;
+  if (!validator.isStrongPassword(password)) {
+    throw new Error("Please enter a strong Password");
+  }
+};
+
 module.exports = {
   validateSignUpData,
-  validateEditProfileData
+  validateEditProfileData,
+  newPasswordValidate,
 };
