@@ -1,79 +1,79 @@
 - create a repository
 - Initialize the repository
 - node_modules,package.json,package-lock.json
-- Install express 
+- Install express
 - create a server
 - Listen to port 7777
-- Write request handlers for  /test , /hello
+- Write request handlers for /test , /hello
 - Install nodemon and update script inside package.json
 - What are dependencies
-- What is the use of "-g" while npm install 
+- What is the use of "-g" while npm install
 - Difference between caret and tilde (^ vs ~)
 - initialize git
 - gitignore
-- create a remote repo on github 
-- Push all code to remote origin 
--Play with route with route extension ex. /hello , /, hello2/ , hello/2 , /xyz
-- Order of the routes matter a lot 
+- create a remote repo on github
+- Push all code to remote origin
+  -Play with route with route extension ex. /hello , /, hello2/ , hello/2 , /xyz
+- Order of the routes matter a lot
 - Install Postman app and make a workspace/collection > test API call
 - Write logic to handle GET , POST , PATCH , DELETE API Calls and test them on PostMan
-- Explore routing and use of ? ,+,(),* in the routes
-- Use of regex in routes /a/,/.*fly$/
-- Reading the query params in the route 
-- Reading the dynamic route 
-- Multiple Route Handlers - Play with the code 
+- Explore routing and use of ? ,+,(),\* in the routes
+- Use of regex in routes /a/,/.\*fly$/
+- Reading the query params in the route
+- Reading the dynamic route
+- Multiple Route Handlers - Play with the code
 - next()
 - next function and errors along with res.send()
 - app.use("/route" , rH,rH2,rH3,rH4)
 - What is a Middleware ? Why do we need it ?
-- How express JS basically handles requests behind the scenes 
+- How express JS basically handles requests behind the scenes
 - Difference app.use vs app.all
 - Write a dummy auth middleware for admin
 - Write a dummy auth middleware for all user routes, except /user/login
 - Error handling using a app.use("/" , (err,req,res,next) => { })
 
 - Create a free cluster on MongoDB official website (Mongo Atlas)
-- Install mongoose library 
+- Install mongoose library
 - Connect your application to the Databases "Connection-url" / devTinder
 - Call the connectDB function and connect to database before starting application on 7777
-- Create POST /signup API to add data to database 
+- Create POST /signup API to add data to database
 - Push some documents using API calls from postman
 - Error Handling using try , catch
 - JS Object vs JSON (Difference)
-- Add the express.json to middleware to your app 
+- Add the express.json to middleware to your app
 - Make your signup API dynamic to receive data from the end user
-- User.findOne with duplicate emailId which object return 
+- User.findOne with duplicate emailId which object return
 - API get user by email
 - API - Feed API - GET/feed - get all the users from the database
 - API - get user by ID
 - create a delete user API
-- Difference between PATCH and PUT 
+- Difference between PATCH and PUT
 - API - update a user
 - Explore a Mongoose Documentation for model methods
-- What are the options in ina a Model.findOneUpdateMethod method, explore more about it  
+- What are the options in ina a Model.findOneUpdateMethod method, explore more about it
 - API - update the user with email Id
-- Explore schema type options from the documentation 
-- add request , unique , lowercase , min ,minLength , trim 
-- Add default 
-- create a custom validate function for gender 
-- Improve the db schema - PUT all appropriate validations on each field in Schema 
-- Add timestamps to the userSchema 
-- Add API level validation on Patch request & signup post api 
+- Explore schema type options from the documentation
+- add request , unique , lowercase , min ,minLength , trim
+- Add default
+- create a custom validate function for gender
+- Improve the db schema - PUT all appropriate validations on each field in Schema
+- Add timestamps to the userSchema
+- Add API level validation on Patch request & signup post api
 - Data Sanitization - Add API validation for each field
-- Install Validator 
+- Install Validator
 - Explore validator library function and use validator function for password , email
 - NEVER TRUST req.body
 - validate data in Signup API
 - Install bcrypt package
 - Create PasswordHash using bcrypt.Hash & save the user is excrupted password
-- create login API 
-- Compare passwords and throw error if email or password is invalid 
+- create login API
+- Compare passwords and throw error if email or password is invalid
 - install cookie-parse
-- just send a dummy cookie to user 
+- just send a dummy cookie to user
 - create GET/profile API and check if you get the cookie back
-- install jsonwebtoken 
-- In login API , after email and password validation , create a JWT token and send it to user 
-- read the cookies inside your profile API and find the logged in user 
+- install jsonwebtoken
+- In login API , after email and password validation , create a JWT token and send it to user
+- read the cookies inside your profile API and find the logged in user
 - userAuth middleware
 - Add the userAuth middle ware in profile API and a new sendConnectionRequest API
 - Set the expire of JWT token and cookies to 7 days
@@ -81,22 +81,37 @@
 - Create userSchema method to comparePassword(passwordInputByUser);
 - Explore tinder APIs
 - Create a list of all API you can think of in Dev Tinder
-- Group multiple routes under respective router 
-- Read documentation for express.Router 
-- Create routes folder for managing auth , profile , request router 
-- create authRouter , profileRouter , requestRouter 
+- Group multiple routes under respective router
+- Read documentation for express.Router
+- Create routes folder for managing auth , profile , request router
+- create authRouter , profileRouter , requestRouter
 - Import these routers in app.js
 - Create POST/logout API
 - Create PATCH /profile/edit
 - Create PATCH /profile/password API => forgot password API
 - Make you validate all data in every POST, PATCH apis
-- create connection request schema 
+- create connection request schema
 - send Connection Request API
-- Proper validation of data 
-- Think about ALL corner cases 
-- $or query $and query in mongoose - Read more about logical query 
+- Proper validation of data
+- Think about ALL corner cases
+- $or query $and query in mongoose - Read more about logical query - https://www.mongodb.com/docs/manual/reference/mql/query-predicates/logical/
+
 - schema.pre("save") function
 - Read more about indexes in mongoDB
 - Why do we need index in DB
 - What is the advantages and disadvantages of creating indexes ?
-- Read this article about compound index 
+- Read this article about compound index
+- Write code with proper validations for POST /request/review/:status/:requestId
+- Thought process - POST vs GET
+- Read about ref and populate https://mongoosejs.com/docs/populate.html
+- Create GET /user/requests/received with all the checks
+- Create GET GET/user/connections
+- Logic for GET /feed API
+- Explore the $nin,$and ,$ne and other query operators
+- Pagination
+
+- feed?page=1&limit=10 => 1-10 => .skip(0) & .limit(10)
+- feed?page=2&limit=10 => 11-20 => .skip(10) & .limit(10)
+- feed?page=3&limit=10 => 21-30 => .skip(20) & .limit(10)
+- feed?page=4&limit=10 => 31-40 => .skip(30) & .limit(10)
+- skip = (page-1) * limit
