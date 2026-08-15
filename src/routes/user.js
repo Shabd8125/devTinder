@@ -4,11 +4,17 @@ const { userAuth } = require("../middleware/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 
-const USER_SAVE_DATA = ["firstName", "lastName", "photoUrl", "about", "skills"];
+const USER_SAVE_DATA = [
+  "firstName",
+  "lastName",
+  "photoUrl",
+  "about",
+  "skills"
+];
+
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
-    
     const connectionRequests = await ConnectionRequest.find({
       toUserId: loggedInUser._id,
       status: "interested",
@@ -18,7 +24,6 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
       message: "Data Fetched Successfully",
       data: connectionRequests,
     });
-
   } catch (err) {
     res.status(400).send("ERROR " + err.message);
   }
@@ -35,12 +40,13 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     })
       .populate("fromUserId", USER_SAVE_DATA)
       .populate("toUserId", USER_SAVE_DATA);
+    
 
     const data = connectionRequest.map((row) => {
       if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
         return row.toUserId;
       }
-      return row.toUserId;
+      return row.fromUserId;
     });
     res.json({ data });
   } catch (err) {

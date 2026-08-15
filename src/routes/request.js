@@ -66,7 +66,9 @@ requestRouter.post(
   async (req, res) => {
     try {
       const loggedInUser = req.user;
+    
       const { status, requestId } = req.params;
+  
       const allowedStatus = ["accepted", "rejected"];
 
       if (!allowedStatus.includes(status)) {
@@ -74,10 +76,13 @@ requestRouter.post(
       }
 
       const connectionRequest = await ConnectionRequest.findOne({
-        _id: requestId,
+        fromUserId: requestId,
         toUserId: loggedInUser._id,
         status: "interested",
       });
+
+     
+
       if (!connectionRequest) {
         return res
           .status(404)
@@ -87,7 +92,6 @@ requestRouter.post(
       connectionRequest.status = status;
       const data = await connectionRequest.save();
       res.json({ message: "Connection Request " + status, data });
-
     } catch (err) {
       res.status(400).send("ERROR" + err.message);
     }
