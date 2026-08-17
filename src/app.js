@@ -21,15 +21,16 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
-
+const PORT = process.env.PORT || 7777;
 connectDB()
   .then(() => {
     console.log("Connection established successfully...");
-    app.listen(7777, () => {
-      console.log("Server is listening on port 7777 .....");
+    app.listen(PORT, () => {
+      console.log(`Server is listening on port ${PORT} .....`);
     });
   })
   .catch((err) => {
-    // console.error("Database cannot be connected....123");
-    console.error("Error123", err);
+    console.log("Database cannot be connected!!", err);
   });
+
+ 
