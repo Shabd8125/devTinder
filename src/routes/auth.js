@@ -79,10 +79,21 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
+// authRouter.post("/logout", async (req, res) => {
+//   res.cookie("token", null, {
+//     expires: new Date(Date.now()),
+//   });
+//   res.send("Logout Successfully");
+// });
 authRouter.post("/logout", async (req, res) => {
-  res.cookie("token", null, {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
     expires: new Date(Date.now()),
+    path: "/",
   });
+
   res.send("Logout Successfully");
 });
 
