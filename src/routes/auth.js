@@ -34,6 +34,7 @@ authRouter.post("/signup", async (req, res) => {
       about,
       photoUrl
     });
+    
     const savedUser = await user.save();
 
     res.send({ message: "User Added Successfully", data: savedUser });
