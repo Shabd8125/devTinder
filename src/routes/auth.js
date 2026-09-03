@@ -29,12 +29,12 @@ authRouter.post("/signup", async (req, res) => {
       emailId,
       skills,
       password: passwordHash,
-       age,
+      age,
       gender,
       about,
-      photoUrl
+      photoUrl,
     });
-    
+
     const savedUser = await user.save();
 
     res.send({ message: "User Added Successfully", data: savedUser });
@@ -63,6 +63,9 @@ authRouter.post("/login", async (req, res) => {
       // const token = await user.getJWT();
       // Add the token to cookie and send the response back to the user
       res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
         expires: new Date(Date.now() + 8 * 3600000),
       });
 
