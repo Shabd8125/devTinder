@@ -4,7 +4,7 @@ const { validateSignUpData } = require("../utils/validation");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const { newPasswordValidate } = require("../utils/validation");
 authRouter.post("/signup", async (req, res) => {
   try {
     // Validation of Data
@@ -79,12 +79,28 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
-// authRouter.post("/logout", async (req, res) => {
-//   res.cookie("token", null, {
-//     expires: new Date(Date.now()),
-//   });
-//   res.send("Logout Successfully");
-// });
+authRouter.patch("/resetPassword", async (req, res) => {
+  try {
+    newPasswordValidate(req);
+    const { emailId, password } = req.body;
+
+    const user = await User.findOne({ emailId });
+    if (!user) {
+      return res.status(404).send("No user found with this email!");
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    user.password = passwordHash;
+    await user.save();
+    res.send({ message: "Password Changed Successfully" });
+  } catch (err) {
+    res.status(400).send("ERROR : " + err.message);
+  }
+});
+
+
+
+
 authRouter.post("/logout", async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
