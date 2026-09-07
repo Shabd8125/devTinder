@@ -4,13 +4,7 @@ const { userAuth } = require("../middleware/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 
-const USER_SAVE_DATA = [
-  "firstName",
-  "lastName",
-  "photoUrl",
-  "about",
-  "skills"
-];
+const USER_SAVE_DATA = ["firstName", "lastName", "photoUrl", "about", "skills"];
 
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   try {
@@ -40,7 +34,6 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     })
       .populate("fromUserId", USER_SAVE_DATA)
       .populate("toUserId", USER_SAVE_DATA);
-    
 
     const data = connectionRequest.map((row) => {
       if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
@@ -95,6 +88,19 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     res.status(400).json({
       message: err.message,
     });
+  }
+});
+
+userRouter.get("/user/sentRequests", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+    const requestsSent = await ConnectionRequest.find({
+      $or: [{ fromUserId: loggedInUser._id, status: "interested" }],
+    }).populate("toUserId", USER_SAVE_DATA);
+
+    res.json(requestsSent);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
   }
 });
 
