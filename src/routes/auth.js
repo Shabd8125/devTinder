@@ -5,6 +5,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { newPasswordValidate } = require("../utils/validation");
+
 authRouter.post("/signup", async (req, res) => {
   try {
     // Validation of Data
