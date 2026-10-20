@@ -115,3 +115,19 @@
 - feed?page=3&limit=10 => 21-30 => .skip(20) & .limit(10)
 - feed?page=4&limit=10 => 31-40 => .skip(30) & .limit(10)
 - skip = (page-1) * limit
+
+Real Time Chat Using WebSocket(Socket.io)
+- Build the UI for a chat window on /chat/:targetUserId
+- Setup socket.io in backend 
+- npm i socket.io
+- Setup frontend socket.io - client
+- Initialize the chat 
+- createSocketConnection
+- Listen to events
+- Homework : Improve the UI
+- Homework : Fix Security Bug - - auth in the web socket 
+- Homework : Fix bug - If I'm not fried , then I am not able to send message
+- Homework : feat : Show Green Symbol when Online ?? - [last Seen 2 hours ago]
+- Homework : Limit messages when fetching from DB
+- Project Ideas : Tic tac toe game 
+- Project Ideas 2 : Chess board 
