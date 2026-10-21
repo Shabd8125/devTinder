@@ -11,7 +11,11 @@ const getSecretRoomId = (userId, targetUserId) => {
 const initializeSocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: [
+        "http://localhost:5173",
+        "https://devtinderwebsite.netlify.app", // no trailing slash
+      ],
+      credentials: true, // needed if you use cookies/JWT in cookies
     },
   });
 
