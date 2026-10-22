@@ -1,6 +1,7 @@
 const socket = require("socket.io");
 const crypto = require("crypto");
 const { Chat } = require("../models/chat");
+const ConnectionRequest = require("../models/connectionRequest");
 const getSecretRoomId = (userId, targetUserId) => {
   return crypto
     .createHash("sha256")
@@ -20,7 +21,17 @@ const initializeSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    socket.on("joinChat", ({ firstName, userId, targetUserId }) => {
+    socket.on("joinChat", async ({ firstName, userId, targetUserId }) => {
+      // TODO : Check if userId and targetUserId are friends
+      const connectionRequest = await ConnectionRequest.findOne({
+        $or: [{ fromUserId: targetUserId }, { toUserId: targetUserId }],
+        status: "accepted",
+      });
+      if (!connectionRequest) {
+        socket.emit("redirect");
+        return;
+      }
+
       const roomId = getSecretRoomId(userId, targetUserId);
       socket.join(roomId);
     });

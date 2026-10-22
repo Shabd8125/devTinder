@@ -56,6 +56,7 @@ connectDB()
 
 const upload = multer({ storage: multer.memoryStorage() });
 
+
 app.post("/upload/photo", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
@@ -64,33 +65,46 @@ app.post("/upload/photo", upload.single("file"), async (req, res) => {
       });
     }
 
-    const formData = new FormData();
-
-    const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
-
-    formData.append("file", blob, req.file.originalname);
-
-    const response = await fetch("https://phototourl.com/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("PhotoToURL error:", errorText);
-      return res.status(response.status).json({
-        error: "PhotoToURL upload failed",
+    if (!process.env.IMGBB_API_KEY) {
+      return res.status(500).json({
+        error: "ImgBB API key is missing",
       });
     }
 
+    const formData = new FormData();
+
+    const base64Image = req.file.buffer.toString("base64");
+
+    formData.append("image", base64Image);
+
+    const response = await fetch(
+      `https://api.imgbb.com/1/upload?key=${encodeURIComponent(
+        process.env.IMGBB_API_KEY
+      )}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
     const data = await response.json();
 
-    res.json({
-      url: data.url,
+    if (!response.ok || !data.success || !data.data?.url) {
+      console.error("ImgBB upload error:", data);
+
+      return res.status(502).json({
+        error: "Image upload failed",
+        details: data.error?.message || "ImgBB rejected the upload",
+      });
+    }
+
+    return res.json({
+      url: data.data.url,
     });
   } catch (error) {
     console.error("Upload error:", error);
-    res.status(500).json({
+
+    return res.status(500).json({
       error: "Internal server error",
     });
   }
